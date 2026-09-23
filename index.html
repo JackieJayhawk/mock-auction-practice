@@ -208,17 +208,20 @@
           <div class="stage-table"></div>
 
           <div class="module" id="imageModule">
-            <div class="module-header"><strong>Lot image</strong><span class="hint">drag + resize</span></div>
+            <div class="resize-handle se" data-corner="se" aria-label="Resize"></div>
+            <div class="module-header"><strong>Lot image</strong><span class="hint">drag</span></div>
             <div class="module-body image-body" id="imagePanel"></div>
           </div>
 
           <div class="module" id="descModule">
-            <div class="module-header"><strong id="descHeaderTitle">Auction copy</strong><span class="hint">drag + resize</span></div>
+            <div class="resize-handle se" data-corner="se" aria-label="Resize"></div>
+            <div class="module-header"><strong id="descHeaderTitle">Auction copy</strong><span class="hint">drag</span></div>
             <div class="module-body" id="descContent"></div>
           </div>
 
           <div class="module" id="gavelModule">
-            <div class="module-header"><strong>Hammer</strong><span class="hint">drag + resize</span></div>
+            <div class="resize-handle se" data-corner="se" aria-label="Resize"></div>
+            <div class="module-header"><strong>Hammer</strong><span class="hint">drag</span></div>
             <div class="module-body gavel-body">
               <button class="gavel-btn" id="gavelBtn">🔨</button>
               <div class="small" style="font-size:14px; color:#333;">Tap gavel to sell</div>
@@ -231,7 +234,7 @@
             <div class="resize-handle sw" data-corner="sw"></div>
             <div class="resize-handle se" data-corner="se"></div>
             <div class="module-header" id="priceModuleHeader" style="grid-column:1/-1;margin:0 -18px 8px -18px;border-radius:24px 24px 0 0;background:#181818;color:#fff;border-bottom:1px solid rgba(255,255,255,.08);">
-              <strong>Current bid</strong><span class="hint" style="color:#ffffff99;">drag + resize</span>
+              <strong>Current bid</strong><span class="hint" style="color:#ffffff99;">drag</span>
             </div>
             <div>
               <div class="small" style="color:#ffffff99; letter-spacing:.25em; text-transform:uppercase;">Current bid</div>
@@ -527,28 +530,7 @@ function rect(id,left,top,width,height){return {id,left,top,right:left+width,bot
 function overlaps(a,b){return !(a.right<=b.left||a.left>=b.right||a.bottom<=b.top||a.top>=b.bottom)}
 function otherRects(id){return ["imageModule","descModule","gavelModule","priceModule"].filter(x=>x!==id).map(x=>{const el=$(x);return rect(x,el.offsetLeft,el.offsetTop,el.offsetWidth,el.offsetHeight)})}
 function safePos(id,left,top,width,height){
-  let p=keepInBounds(snap(left),snap(top),width,height);
-  let r=rect(id,p.left,p.top,width,height);
-  const others=otherRects(id);
-  let guard=0;
-  while(others.some(o=>overlaps(r,o)) && guard<20){
-    const hit=others.find(o=>overlaps(r,o));
-    const opts=[
-      keepInBounds(hit.right+12,p.top,width,height),
-      keepInBounds(hit.left-width-12,p.top,width,height),
-      keepInBounds(p.left,hit.bottom+12,width,height),
-      keepInBounds(p.left,hit.top-height-12,width,height)
-    ].map(o=>({left:snap(o.left),top:snap(o.top)}));
-    let best=opts[0],score=Infinity;
-    for(const o of opts){
-      const cand=rect(id,o.left,o.top,width,height);
-      const count=others.filter(x=>overlaps(cand,x)).length;
-      const s=count*10000+Math.abs(o.left-left)+Math.abs(o.top-top);
-      if(s<score){score=s;best=o}
-    }
-    p=best; r=rect(id,p.left,p.top,width,height); guard++;
-  }
-  return p;
+  return keepInBounds(left,top,width,height);
 }
 function makeDraggable(id,handleId){
   const el=$(id), header=handleId?$(handleId):el.querySelector(".module-header");
@@ -636,6 +618,9 @@ function makeCornerResizable(id){
 }
 
 makeDraggable("priceModule","priceModuleHeader");
+makeCornerResizable("imageModule");
+makeCornerResizable("descModule");
+makeCornerResizable("gavelModule");
 makeCornerResizable("priceModule");
 watchResizeSave("imageModule");
 
