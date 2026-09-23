@@ -1,108 +1,322 @@
-/* Auction workspace polish: free movement, easy resize, compact bidder cards */
-.pov {
-  position: relative !important;
-  min-height: 780px !important;
-  padding: 0 !important;
-  overflow: visible !important;
+/* Mock Auction Practice — comprehensive UX polish */
+:root{
+  --auction-bg:#f4f1eb;
+  --auction-panel:#fbfaf7;
+  --auction-card:#ffffff;
+  --auction-ink:#191816;
+  --auction-muted:#6f6a63;
+  --auction-line:#ddd8d0;
+  --auction-soft:#ece7de;
+  --auction-accent:#9a563d;
+  --auction-dark:#171715;
 }
 
-/* The decorative auction-table block was visually confusing and serves no control purpose. */
-.stage-table {
-  display: none !important;
+html{scroll-behavior:smooth}
+body{
+  background:
+    radial-gradient(circle at 50% -120px,rgba(255,255,255,.98) 0,rgba(255,255,255,.72) 28%,transparent 58%),
+    var(--auction-bg) !important;
+  color:var(--auction-ink);
+  text-rendering:optimizeLegibility;
+}
+.app{max-width:1600px !important;padding:20px !important}
+
+.layout{grid-template-columns:minmax(250px,285px) minmax(0,1fr) !important;align-items:start}
+.layout>div:first-child{
+  position:sticky;
+  top:16px;
+  align-self:start;
+  max-height:calc(100vh - 32px);
+  overflow:auto;
+}
+.main-area{grid-template-columns:minmax(0,1fr) 310px !important;align-items:start}
+.side-col{gap:12px !important}
+
+.card,
+.support-banner{
+  background:rgba(255,255,255,.88) !important;
+  border:1px solid var(--auction-line) !important;
+  box-shadow:0 12px 34px rgba(35,29,23,.055) !important;
+  backdrop-filter:blur(14px);
+}
+.card{border-radius:20px !important}
+.side-col .card{padding:14px !important;border-radius:16px !important}
+.support-banner{border-radius:16px !important;box-shadow:none !important}
+
+.product-kicker{
+  color:var(--auction-muted);
+  font-size:11px;
+  font-weight:800;
+  letter-spacing:.13em;
+  text-transform:uppercase;
+  margin-bottom:6px;
+}
+.product-title{
+  margin:0;
+  font-size:clamp(28px,3vw,42px);
+  letter-spacing:-.035em;
+  line-height:1;
+}
+.current-lot-label{
+  margin-top:12px;
+  color:var(--auction-muted);
+  font-size:11px;
+  font-weight:700;
+  letter-spacing:.08em;
+  text-transform:uppercase;
+}
+.current-lot-title{
+  margin-top:3px;
+  font-size:clamp(18px,2vw,25px);
+  font-weight:700;
+  line-height:1.15;
 }
 
-/* Keep the bidder row compact; cards should only be as tall as their content. */
-.crowd {
-  position: absolute !important;
-  top: 16px !important;
-  left: 16px !important;
-  right: 16px !important;
-  display: flex !important;
-  gap: 10px !important;
-  flex-wrap: wrap !important;
-  justify-content: center !important;
-  align-items: flex-start !important;
-  align-content: flex-start !important;
-  height: auto !important;
-  z-index: 2 !important;
+button,.btn,.chip,.lot-btn,.support-link,input,select,textarea{
+  transition:border-color .15s ease,background .15s ease,color .15s ease,transform .15s ease,box-shadow .15s ease;
 }
-
-.bidder-badge {
-  height: auto !important;
-  min-height: 0 !important;
-  align-self: flex-start !important;
+button,.btn,.chip{min-height:40px}
+button:focus-visible,.btn:focus-visible,.chip:focus-visible,.lot-btn:focus-visible,
+input:focus-visible,select:focus-visible,textarea:focus-visible,a:focus-visible{
+  outline:3px solid rgba(154,86,61,.28) !important;
+  outline-offset:2px;
 }
+.btn{border-radius:12px !important;font-weight:650}
+.btn:not(.secondary):not(.light){background:var(--auction-dark) !important}
+.btn:not(.secondary):not(.light):hover{background:#2a2926 !important;transform:translateY(-1px)}
+.btn.secondary,.chip{
+  background:#fff !important;
+  border-color:var(--auction-line) !important;
+  color:var(--auction-ink) !important;
+}
+.btn.secondary:hover,.chip:hover{border-color:#bdb6ad !important;background:#f8f6f2 !important}
+.chip.active{background:var(--auction-dark) !important;color:#fff !important;border-color:var(--auction-dark) !important}
+.input,.select,.textarea{
+  border-color:var(--auction-line) !important;
+  background:#fff !important;
+  border-radius:12px !important;
+}
+#translateBtn{display:none !important}
+.lot-tools{gap:8px !important;align-items:center}
+.langtoggle{gap:6px !important}
 
-/* Restore the original free-positioned workspace. Inline JS controls left/top/size. */
+.lot-btn{
+  border-color:var(--auction-line) !important;
+  border-radius:14px !important;
+  padding:11px 12px !important;
+}
+.lot-btn:hover{border-color:#bdb6ad !important;background:#faf8f4 !important}
+.lot-btn.active{background:var(--auction-dark) !important;border-color:var(--auction-dark) !important;box-shadow:0 8px 18px rgba(0,0,0,.09)}
+#deleteLotBtn{color:#6d3e31 !important}
+
+.prompt-strip{
+  position:sticky;
+  top:8px;
+  z-index:18;
+  background:var(--auction-dark) !important;
+  border:1px solid rgba(255,255,255,.08);
+  border-radius:14px !important;
+  padding:11px 14px !important;
+  box-shadow:0 10px 28px rgba(0,0,0,.12) !important;
+}
+.prompt-strip-title{color:#c9c2b8 !important}
+.prompt-strip-text{font-size:15px;line-height:1.45}
+
+.pov{
+  position:relative !important;
+  min-height:780px !important;
+  padding:0 !important;
+  overflow:visible !important;
+  border:1px solid var(--auction-line);
+  background:
+    linear-gradient(180deg,rgba(244,246,248,.82) 0 114px,rgba(247,242,234,.96) 114px 100%) !important;
+  border-radius:24px !important;
+  box-shadow:0 18px 44px rgba(57,45,32,.07) !important;
+}
+.sky{height:114px !important;background:linear-gradient(180deg,#eef1f4 0%,#ebe7e0 100%) !important;border-radius:24px 24px 0 0}
+.stage-table{display:none !important}
+
+.crowd{
+  position:absolute !important;
+  top:14px !important;
+  left:14px !important;
+  right:14px !important;
+  display:flex !important;
+  gap:8px !important;
+  flex-wrap:wrap !important;
+  justify-content:center !important;
+  align-items:flex-start !important;
+  align-content:flex-start !important;
+  height:auto !important;
+  z-index:2 !important;
+}
+.bidder-badge{
+  min-width:145px !important;
+  max-width:190px !important;
+  height:auto !important;
+  min-height:0 !important;
+  align-self:flex-start !important;
+  padding:8px 10px !important;
+  border-radius:14px !important;
+  border-color:rgba(27,25,22,.12) !important;
+  background:rgba(255,255,255,.9) !important;
+  box-shadow:0 6px 16px rgba(0,0,0,.035);
+}
+.bidder-badge:hover{transform:translateY(-2px)}
+.bidder-badge.active{
+  background:#fff !important;
+  border-color:var(--auction-dark) !important;
+  transform:translateY(-2px) !important;
+  box-shadow:0 8px 20px rgba(0,0,0,.08);
+}
+.badge-controls{margin-top:7px !important}
+.mini-btn{min-height:26px !important;min-width:28px}
+
 .module,
-.price-panel {
-  position: absolute !important;
-  resize: none !important;
+.price-panel{
+  position:absolute !important;
+  resize:none !important;
 }
-
-.module-header {
-  cursor: grab !important;
+.module{
+  border-radius:18px !important;
+  border-color:rgba(27,25,22,.1) !important;
+  background:rgba(255,255,255,.95) !important;
+  box-shadow:0 12px 28px rgba(0,0,0,.07) !important;
 }
-
-.module-header:active {
-  cursor: grabbing !important;
+.module:hover{box-shadow:0 16px 34px rgba(0,0,0,.10) !important}
+.module-header{
+  min-height:42px;
+  padding:9px 12px !important;
+  cursor:grab !important;
+  background:rgba(255,255,255,.97) !important;
+  border-bottom-color:rgba(0,0,0,.06) !important;
 }
-
-.module-header .hint {
-  display: inline !important;
-  opacity: .55;
+.module-header:active{cursor:grabbing !important}
+.module-header .hint{display:inline !important;opacity:.55}
+.module-body{padding:12px !important}
+.image-body{background:#fbfaf8 !important}
+.gavel-btn{
+  width:92px !important;
+  height:92px !important;
+  border-color:var(--auction-line) !important;
+  box-shadow:0 10px 24px rgba(0,0,0,.09) !important;
 }
+.gavel-btn:hover{transform:translateY(-2px) rotate(-2deg);box-shadow:0 14px 28px rgba(0,0,0,.13) !important}
 
-/* Price module is draggable too, but should stay a compact control surface. */
-#priceModule {
-  min-height: 150px !important;
-  overflow: hidden !important;
+.price-panel{
+  min-height:150px !important;
+  overflow:hidden !important;
+  border-radius:20px !important;
+  background:var(--auction-dark) !important;
+  box-shadow:0 18px 40px rgba(0,0,0,.16) !important;
 }
+#priceModuleHeader{display:flex !important;cursor:grab !important}
+#priceModuleHeader:active{cursor:grabbing !important}
+#priceModule .price-big{font-size:clamp(40px,4.6vw,62px) !important;letter-spacing:-.03em}
+#priceModule .input{border-color:rgba(255,255,255,.18) !important}
+#priceModule .btn.light,#priceModule .btn.secondary{border-color:rgba(255,255,255,.14) !important}
+#priceModule .btn.light:hover,#priceModule .btn.secondary:hover{background:#ece9e4 !important}
 
-#priceModuleHeader {
-  display: flex !important;
+/* One large resize grip; no tiny corner dots. */
+.resize-handle{display:none !important}
+.resize-handle.se{
+  display:grid !important;
+  place-items:center;
+  width:36px !important;
+  height:36px !important;
+  right:-3px !important;
+  bottom:-3px !important;
+  left:auto !important;
+  top:auto !important;
+  border:0 !important;
+  border-radius:12px 0 18px 0 !important;
+  background:rgba(255,255,255,.93) !important;
+  box-shadow:-3px -3px 11px rgba(0,0,0,.07) !important;
+  color:#5f5952;
+  cursor:nwse-resize !important;
+  opacity:.72;
+  z-index:20 !important;
 }
+.resize-handle.se::after{content:"↘";font-size:18px;line-height:1;font-weight:800}
+.module:hover .resize-handle.se,.price-panel:hover .resize-handle.se{opacity:1}
 
-/* Replace four fiddly white dots / native corner with one large, obvious grip. */
-.resize-handle {
-  display: none !important;
+.collapsible .collapse-header h3{font-size:16px}
+.collapsible .collapse-header .smallbtn{min-height:32px;padding:6px 9px !important;font-size:12px}
+.collapsible.collapsed .collapse-body{display:none !important}
+.side-col .row{gap:7px !important}
+.bidder-control{grid-template-columns:minmax(0,1fr) 42px 42px !important;gap:6px !important}
+#bidderControlsBox>.card{
+  box-shadow:none !important;
+  background:#faf8f4 !important;
+  border-radius:13px !important;
+  padding:9px !important;
 }
+.energy-bar{height:10px !important}
 
-.resize-handle.se {
-  display: grid !important;
-  place-items: center;
-  width: 36px !important;
-  height: 36px !important;
-  right: -4px !important;
-  bottom: -4px !important;
-  left: auto !important;
-  top: auto !important;
-  border: 0 !important;
-  border-radius: 12px 0 20px 0 !important;
-  background: rgba(255,255,255,.92) !important;
-  box-shadow: -4px -4px 12px rgba(0,0,0,.08) !important;
-  color: #555;
-  cursor: nwse-resize !important;
-  z-index: 20 !important;
+.credit-banner{
+  background:transparent !important;
+  color:var(--auction-muted) !important;
+  border:0 !important;
+  box-shadow:none !important;
+  padding:3px 8px !important;
+  font-size:11px !important;
+  font-weight:600 !important;
 }
+.credit-banner a{color:inherit}
+.support-title{font-size:13px !important}
+.support-copy{font-size:12px !important}
+.support-link{border-color:var(--auction-line) !important;background:#faf8f4 !important}
 
-.resize-handle.se::after {
-  content: "↘";
-  font-size: 18px;
-  line-height: 1;
-  font-weight: 700;
+.about-tool{
+  max-width:1080px;
+  margin:26px auto 8px;
+  padding:28px;
+  background:rgba(255,255,255,.72);
+  border:1px solid var(--auction-line);
+  border-radius:22px;
 }
+.about-tool h2{margin:0 0 8px;font-size:24px;letter-spacing:-.02em}
+.about-tool>p{margin:0;color:var(--auction-muted);line-height:1.65;max-width:820px}
+.about-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin-top:18px}
+.about-point{padding:15px;border:1px solid var(--auction-line);border-radius:14px;background:#fff}
+.about-point strong{display:block;margin-bottom:5px}
+.about-point span{font-size:13px;line-height:1.5;color:var(--auction-muted)}
+.site-footer{text-align:center;color:var(--auction-muted);font-size:12px;padding:14px 8px 4px}
+.site-footer a{color:inherit;text-decoration:none}
+.site-footer a:hover{text-decoration:underline}
 
-@media (max-width: 1180px) {
-  .pov { min-height: 900px !important; }
-  .crowd { justify-content: flex-start !important; }
+/* Tutorial button follows the site palette instead of bright blue. */
+#tutorialModal .tutorial-practice-btn{
+  background:var(--auction-dark) !important;
+  box-shadow:0 5px 14px rgba(0,0,0,.18) !important;
 }
+#tutorialModal .tutorial-practice-btn:hover{background:#2a2926 !important}
 
-@media (max-width: 700px) {
-  /* On narrow screens keep the workspace usable; modules can still be dragged within the canvas. */
-  .pov { min-height: 980px !important; }
-  .resize-handle.se {
-    width: 40px !important;
-    height: 40px !important;
-  }
+@media (max-width:1180px){
+  .layout{grid-template-columns:1fr !important}
+  .layout>div:first-child{position:static;max-height:none}
+  .main-area{grid-template-columns:minmax(0,1fr) !important}
+  .side-col{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .side-col>*{min-width:0}
+  .pov{min-height:900px !important}
+  .crowd{justify-content:flex-start !important}
+}
+@media (max-width:760px){
+  .app{padding:10px !important}
+  .card{padding:13px !important;border-radius:16px !important}
+  .toolbar{align-items:flex-start !important}
+  .lot-tools{width:100%}
+  .lot-tools .btn,.lot-tools .chip{min-height:42px}
+  .prompt-strip{top:4px}
+  .pov{min-height:980px !important;border-radius:18px !important}
+  .sky{border-radius:18px 18px 0 0}
+  .crowd{left:9px !important;right:9px !important;top:9px !important;gap:6px !important}
+  .bidder-badge{min-width:132px !important;max-width:calc(50% - 4px) !important}
+  .side-col{grid-template-columns:1fr}
+  .about-tool{padding:20px;margin-top:18px}
+  .about-grid{grid-template-columns:1fr}
+  .resize-handle.se{width:42px !important;height:42px !important}
+}
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{scroll-behavior:auto !important;transition:none !important;animation:none !important}
 }
