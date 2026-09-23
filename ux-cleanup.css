@@ -1,0 +1,139 @@
+/* Stable practice workspace: fixed modules, no drag/resize chrome */
+.pov {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  gap: 16px;
+  min-height: 0 !important;
+  padding: 16px;
+  overflow: visible;
+  background: linear-gradient(180deg, #f4f1eb 0%, #ece6dc 100%);
+}
+
+.sky,
+.stage-table {
+  display: none !important;
+}
+
+.crowd {
+  position: static !important;
+  grid-column: 1 / -1;
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  justify-content: center;
+  z-index: auto;
+}
+
+.module,
+.price-panel {
+  position: static !important;
+  left: auto !important;
+  top: auto !important;
+  right: auto !important;
+  bottom: auto !important;
+  resize: none !important;
+  min-width: 0 !important;
+  z-index: auto !important;
+}
+
+#imageModule {
+  grid-column: 1 / span 4;
+  width: auto !important;
+  height: 260px !important;
+}
+
+#descModule {
+  grid-column: 5 / span 5;
+  width: auto !important;
+  height: 260px !important;
+}
+
+#gavelModule {
+  grid-column: 10 / -1;
+  width: auto !important;
+  height: 260px !important;
+}
+
+#priceModule {
+  grid-column: 1 / -1;
+  width: auto !important;
+  height: auto !important;
+  min-height: 0 !important;
+  overflow: visible !important;
+  padding: 24px;
+  border-radius: 22px;
+  grid-template-columns: minmax(0, 1fr) minmax(280px, 360px);
+}
+
+.module-header {
+  cursor: default !important;
+}
+
+.module-header .hint,
+#priceModuleHeader,
+.resize-handle {
+  display: none !important;
+}
+
+.module-body {
+  overflow: auto;
+}
+
+#priceModule .price-big {
+  font-size: clamp(42px, 5vw, 64px);
+}
+
+@media (max-width: 980px) {
+  .pov {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .crowd,
+  #priceModule {
+    grid-column: 1 / -1;
+  }
+
+  #imageModule,
+  #descModule {
+    grid-column: span 1;
+    height: 250px !important;
+  }
+
+  #gavelModule {
+    grid-column: 1 / -1;
+    height: 190px !important;
+  }
+
+  #priceModule {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 640px) {
+  .pov {
+    grid-template-columns: 1fr;
+    padding: 12px;
+  }
+
+  .crowd,
+  #imageModule,
+  #descModule,
+  #gavelModule,
+  #priceModule {
+    grid-column: 1;
+  }
+
+  #imageModule,
+  #descModule {
+    height: 230px !important;
+  }
+
+  #gavelModule {
+    height: 180px !important;
+  }
+
+  #priceModule {
+    padding: 20px;
+  }
+}
