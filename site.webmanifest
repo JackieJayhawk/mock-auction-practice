@@ -1,0 +1,17 @@
+{
+  "name": "Mock Auction Practice",
+  "short_name": "Auction Practice",
+  "description": "Free bilingual auctioneer training simulator for live bid-calling practice.",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#f4f1eb",
+  "theme_color": "#171715",
+  "icons": [
+    {
+      "src": "/favicon.ico",
+      "sizes": "16x16 32x32 48x48 64x64",
+      "type": "image/x-icon"
+    }
+  ]
+}
