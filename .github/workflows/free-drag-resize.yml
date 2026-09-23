@@ -22,17 +22,12 @@ jobs:
           path = Path('index.html')
           text = path.read_text(encoding='utf-8')
 
-          # Remove snap-to-grid and collision avoidance. Modules may overlap by design.
           pattern = r'^function safePos\(id,left,top,width,height\)\{.*?^\}\nfunction makeDraggable'
-          replacement = '''function safePos(id,left,top,width,height){
-  return keepInBounds(left,top,width,height);
-}
-function makeDraggable'''
+          replacement = 'function safePos(id,left,top,width,height){\n  return keepInBounds(left,top,width,height);\n}\nfunction makeDraggable'
           text, n = re.subn(pattern, replacement, text, count=1, flags=re.M|re.S)
           if n != 1:
               raise SystemExit(f'safePos patch count was {n}, expected 1')
 
-          # Add one large southeast resize handle to the three white modules.
           for module_id in ('imageModule','descModule','gavelModule'):
               old = f'<div class="module" id="{module_id}">'
               new = old + '\n            <div class="resize-handle se" data-corner="se" aria-label="Resize"></div>'
@@ -41,21 +36,14 @@ function makeDraggable'''
                       raise SystemExit(f'{module_id} opening tag not found')
                   text = text.replace(old, new, 1)
 
-          # Use the same resize logic already used by Current bid.
           marker = 'makeDraggable("priceModule","priceModuleHeader");\nmakeCornerResizable("priceModule");'
-          expanded = '''makeDraggable("priceModule","priceModuleHeader");
-makeCornerResizable("imageModule");
-makeCornerResizable("descModule");
-makeCornerResizable("gavelModule");
-makeCornerResizable("priceModule");'''
+          expanded = 'makeDraggable("priceModule","priceModuleHeader");\nmakeCornerResizable("imageModule");\nmakeCornerResizable("descModule");\nmakeCornerResizable("gavelModule");\nmakeCornerResizable("priceModule");'
           if expanded not in text:
               if marker not in text:
                   raise SystemExit('resize initialization marker not found')
               text = text.replace(marker, expanded, 1)
 
-          # The visible corner grip now communicates resize; header only needs to say drag.
           text = text.replace('drag + resize', 'drag')
-
           path.write_text(text, encoding='utf-8')
           PY
       - name: Commit patch
