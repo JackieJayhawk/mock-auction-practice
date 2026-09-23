@@ -1,0 +1,40 @@
+name: One-time auction UX cleanup
+
+on:
+  push:
+    paths:
+      - '.github/workflows/apply-ux-cleanup.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  patch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Link stable workspace stylesheet
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          path = Path('index.html')
+          text = path.read_text(encoding='utf-8')
+          marker = '</style>'
+          link = '<link rel="stylesheet" href="/ux-cleanup.css?v=1" />'
+          if link not in text:
+              if marker not in text:
+                  raise SystemExit('style marker not found')
+              text = text.replace(marker, marker + '\n  ' + link, 1)
+          path.write_text(text, encoding='utf-8')
+          PY
+      - name: Commit cleanup
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add index.html
+          if git diff --cached --quiet; then
+            echo 'No changes to commit.'
+          else
+            git commit -m 'Use fixed auction workspace layout [skip ci]'
+            git push
+          fi
