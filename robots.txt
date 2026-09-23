@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://jackiejayhawk.github.io/mock-auction-practice/sitemap.xml
+Sitemap: https://auction.panjackieliu.com/sitemap.xml
