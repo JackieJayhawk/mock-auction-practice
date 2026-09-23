@@ -3,28 +3,32 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Mock Auction Practice: A Bilingual Auctioneer Training Simulator</title>
-  <meta name="description" content="Free browser-based bilingual auctioneer training simulator for practicing live bid calling, price increments, bidder switching, auction pacing, and hammer-down sequences in English, CNY, and HKD." />
-  <meta name="robots" content="index, follow" />
+  <title>Mock Auction Practice | Free Bilingual Auctioneer Simulator</title>
+  <meta name="description" content="Practice live auctioneering in your browser with realistic bid ladders, bidder switching, bilingual lot copy, live prompts, and hammer-down drills in CNY and HKD." />
+  <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
   <meta name="google-site-verification" content="4iUiegfm6DMr8PN_IfbzlUyvNfhztZsBy7CluIqL4ho" />
   <link rel="canonical" href="https://auction.panjackieliu.com/" />
   <link rel="icon" type="image/x-icon" href="/favicon.ico?v=20260923" />
   <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=20260923" />
+  <link rel="manifest" href="/site.webmanifest" />
+  <meta name="theme-color" content="#171715" />
+  <meta name="application-name" content="Mock Auction Practice" />
   <meta property="og:type" content="website" />
-  <meta property="og:title" content="Mock Auction Practice: A Bilingual Auctioneer Training Simulator" />
-  <meta property="og:description" content="Free browser-based bilingual auctioneer training simulator for practicing live bid calling, price increments, bidder switching, auction pacing, and hammer-down sequences in English, CNY, and HKD." />
+  <meta property="og:title" content="Mock Auction Practice | Free Bilingual Auctioneer Simulator" />
+  <meta property="og:description" content="Practice live auctioneering in your browser with realistic bid ladders, bidder switching, bilingual lot copy, live prompts, and hammer-down drills in CNY and HKD." />
   <meta property="og:url" content="https://auction.panjackieliu.com/" />
   <meta property="og:site_name" content="Mock Auction Practice" />
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="Mock Auction Practice: A Bilingual Auctioneer Training Simulator" />
-  <meta name="twitter:description" content="Free browser-based bilingual auctioneer training simulator for practicing live bid calling, price increments, bidder switching, auction pacing, and hammer-down sequences in English, CNY, and HKD." />
+  <meta name="twitter:title" content="Mock Auction Practice | Free Bilingual Auctioneer Simulator" />
+  <meta name="twitter:description" content="Practice live auctioneering in your browser with realistic bid ladders, bidder switching, bilingual lot copy, live prompts, and hammer-down drills in CNY and HKD." />
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
     "@type": "WebApplication",
-    "name": "Mock Auction Practice: A Bilingual Auctioneer Training Simulator",
+    "name": "Mock Auction Practice",
+    "alternateName": "Bilingual Auctioneer Training Simulator",
     "url": "https://auction.panjackieliu.com/",
-    "description": "Free browser-based bilingual auctioneer training simulator for practicing live bid calling, price increments, bidder switching, auction pacing, and hammer-down sequences in English, CNY, and HKD.",
+    "description": "Practice live auctioneering in your browser with realistic bid ladders, bidder switching, bilingual lot copy, live prompts, and hammer-down drills in CNY and HKD.",
     "applicationCategory": "EducationalApplication",
     "operatingSystem": "Any",
     "browserRequirements": "Requires a modern web browser with JavaScript enabled.",
@@ -32,7 +36,13 @@
     "inLanguage": ["en", "zh"],
     "author": {
       "@type": "Person",
-      "name": "Pan Jackie Liu"
+      "name": "Pan Jackie Liu",
+      "url": "https://panjackieliu.com/"
+    },
+    "offers": {
+      "@type": "Offer",
+      "price": "0",
+      "priceCurrency": "USD"
     }
   }
   </script>
@@ -177,8 +187,10 @@
       <div class="card">
         <div class="toolbar">
           <div>
-            <div class="small">Mock auction practice prototype v6</div>
-            <div id="lotTitleTop" style="font-size:28px; font-weight:700;"></div>
+            <div class="product-kicker">Free bilingual auctioneer training simulator</div>
+            <h1 class="product-title">Mock Auction Practice</h1>
+            <div class="current-lot-label">Current lot</div>
+            <div id="lotTitleTop" class="current-lot-title"></div>
           </div>
           <div class="lot-tools">
             <button class="btn secondary howto-btn" id="howToBtn">❓ How to use</button>
@@ -193,7 +205,7 @@
             <button class="btn secondary" id="translateBtn">Translate</button>
             <button class="btn secondary" id="toggleDescBtn">Hide text</button>
             <button class="btn secondary" id="editLotBtn">Edit lot</button>
-            <button class="btn secondary" id="togglePromptBtn">Prompt strip</button>
+            <button class="btn secondary" id="togglePromptBtn">Hide prompt</button>
           </div>
         </div>
       </div>
@@ -290,7 +302,7 @@
             </div>
           </div>
 
-          <div class="card collapsible" id="energyCard">
+          <div class="card collapsible collapsed" id="energyCard">
             <div class="collapse-header"><h3>Room energy</h3><button class="btn secondary smallbtn" data-toggle="energyCard">Collapse</button></div>
             <div class="collapse-body">
               <div class="small" style="margin-bottom:10px;">Use this as a visual cue for how lively the room feels.</div>
@@ -300,7 +312,7 @@
             </div>
           </div>
 
-          <div class="card collapsible" id="actionsCard">
+          <div class="card collapsible collapsed" id="actionsCard">
             <div class="collapse-header"><h3>Quick actions</h3><button class="btn secondary smallbtn" data-toggle="actionsCard">Collapse</button></div>
             <div class="collapse-body">
               <div class="grid">
@@ -313,12 +325,12 @@
                   <button class="btn secondary" id="prevLotBtn">Prev</button>
                   <button class="btn secondary" id="nextLotBtn">Next</button>
                 </div>
-                <div class="snap-note">Current bid box is now fully inside the auction area, so you can resize it from the right edge.</div>
+                <div class="snap-note">Drag any module by its header. Resize from the large lower-right corner grip. Your layout is saved automatically.</div>
               </div>
             </div>
           </div>
 
-          <div class="credit-banner">Designer: Pan Jackie Liu, Ph.D. © 2026<br>All Rights Reserved</div>
+          <div class="credit-banner">Designed by <a href="https://panjackieliu.com/" target="_blank" rel="noopener noreferrer">Pan Jackie Liu, Ph.D.</a> · © 2026</div>
 
           <div class="support-banner">
             <div class="support-title">About this simulator</div>
@@ -351,6 +363,16 @@
     </div>
   </div>
 
+  <section class="about-tool" aria-labelledby="about-tool-title">
+    <h2 id="about-tool-title">Practice live auctioneering in your browser</h2>
+    <p>Mock Auction Practice is a free bilingual training simulator for rehearsing bid calls, price increments, bidder recognition, pacing, and hammer-down sequences. No account is required; your practice lots, bidders, and workspace layout are stored locally in this browser.</p>
+    <div class="about-grid">
+      <div class="about-point"><strong>Build bid-calling fluency</strong><span>Use realistic CNY and HKD ladders, then raise or lower the price without doing mental arithmetic between calls.</span></div>
+      <div class="about-point"><strong>Practice bidder switching</strong><span>Move between floor, phone, online, and absentee bidders while the live prompt updates with the active bid.</span></div>
+      <div class="about-point"><strong>Reduce the scaffold over time</strong><span>Start with bilingual lot copy and live prompts, then hide them as your auction language becomes more automatic.</span></div>
+    </div>
+  </section>
+  <footer class="site-footer">Mock Auction Practice · <a href="https://panjackieliu.com/" target="_blank" rel="noopener noreferrer">Pan Jackie Liu</a> · © 2026</footer>
 
   <div class="modal" id="tutorialModal" role="dialog" aria-modal="true" aria-label="How to use Mock Auction Practice">
     <div class="tutorial-card">
@@ -424,8 +446,33 @@ function normalizeToLadder(v){if(!v||v<=0||Number.isNaN(v))return 0;if(activeLad
 function getNextPrice(c){if(c<=0)return activeLadder()[0];const i=getClosestIndex(c);if(activeLadder()[i]<c&&i<activeLadder().length-1)return activeLadder()[i+1];return activeLadder()[Math.min(i+1,activeLadder().length-1)]}
 function getPrevPrice(c){if(c<=0)return 0;const i=getClosestIndex(c);if(activeLadder()[i]>c&&i>0)return activeLadder()[i-1];return i>0?activeLadder()[i-1]:0}
 function localKey(){return "mockAuctionPracticeStandaloneV6"}
-function saveLocal(){localStorage.setItem(localKey(),JSON.stringify({lots,bidders,moduleLayout:getModuleLayout(),activeLadderKey}))}
-function loadLocal(){try{const raw=localStorage.getItem(localKey());if(!raw)return;const data=JSON.parse(raw);if(Array.isArray(data.lots)&&data.lots.length)lots=data.lots;if(Array.isArray(data.bidders)&&data.bidders.length)bidders=data.bidders;if(data.moduleLayout)applyModuleLayout(data.moduleLayout); if(data.activeLadderKey) activeLadderKey=data.activeLadderKey;}catch(e){}}
+let savedModuleLayout=null;
+function saveLocal(){
+  try{
+    localStorage.setItem(localKey(),JSON.stringify({
+      lots,bidders,moduleLayout:getModuleLayout(),activeLadderKey,currentLotIndex,language,
+      descVisible,promptVisible,currentPrice,activeBidderId
+    }));
+  }catch(e){}
+}
+function loadLocal(){
+  try{
+    const raw=localStorage.getItem(localKey());
+    if(!raw)return;
+    const data=JSON.parse(raw);
+    if(Array.isArray(data.lots)&&data.lots.length)lots=data.lots;
+    if(Array.isArray(data.bidders)&&data.bidders.length)bidders=data.bidders;
+    if(data.moduleLayout)savedModuleLayout=data.moduleLayout;
+    if(data.activeLadderKey)activeLadderKey=data.activeLadderKey;
+    if(Number.isInteger(data.currentLotIndex))currentLotIndex=Math.max(0,Math.min(data.currentLotIndex,lots.length-1));
+    if(data.language==="EN"||data.language==="CN")language=data.language;
+    if(typeof data.descVisible==="boolean")descVisible=data.descVisible;
+    if(typeof data.promptVisible==="boolean")promptVisible=data.promptVisible;
+    if(Number.isFinite(data.currentPrice))currentPrice=data.currentPrice;
+    if(data.activeBidderId&&bidders.some(b=>b.id===data.activeBidderId))activeBidderId=data.activeBidderId;
+    else if(bidders.length)activeBidderId=bidders[0].id;
+  }catch(e){}
+}
 
 function currencyWord(){
   return activeLadderKey==="HKD" ? "Hong Kong dollars" : "yuan";
@@ -501,7 +548,7 @@ function renderImage(){const panel=$("imagePanel"), lot=currentLot();if(lot.imag
 function renderDescription(){$("descHeaderTitle").textContent=language==="EN"?"Auction copy":"拍品简介";if(!descVisible){$("descContent").innerHTML=`<div class="hidden-box">Description hidden for memory practice</div>`;return;}$("descContent").textContent=language==="EN"?currentLot().descriptionEN:currentLot().descriptionCN}
 function renderPrice(){$("priceDisplay").textContent=`${activeCurrencyCode()} ${formatPrice(currentPrice)}`;const b=activeBidder();$("activeBidderLine").textContent=`Active bidder: ${BIDDER_TYPE_META[b.type].label} — ${b.name}`}
 function renderBidderControls(){const box=$("bidderControlsBox");box.innerHTML="";bidders.forEach(b=>{const meta=BIDDER_TYPE_META[b.type];const wrap=document.createElement("div");wrap.className="card";wrap.style.padding="10px";wrap.style.borderRadius="18px";wrap.innerHTML=`<div class="row" style="margin-bottom:8px;"><input class="input bidder-name" value="${escapeAttr(b.name)}" /><select class="select bidder-type"><option value="onsite"${b.type==="onsite"?" selected":""}>On-site</option><option value="phone"${b.type==="phone"?" selected":""}>Phone</option><option value="online"${b.type==="online"?" selected":""}>Online</option><option value="absentee"${b.type==="absentee"?" selected":""}>Absentee</option></select></div><div class="bidder-control"><button class="btn secondary main-btn">${meta.label}: ${escapeHtml(b.name)}</button><button class="btn secondary smallbtn">+</button><button class="btn secondary smallbtn">−</button></div><button class="btn secondary" style="width:100%;margin-top:8px;">Remove bidder</button>`;const nameInput=wrap.querySelector(".bidder-name");const typeSelect=wrap.querySelector(".bidder-type");const buttons=wrap.querySelectorAll("button");nameInput.oninput=(e)=>{b.name=e.target.value;renderAll()};typeSelect.onchange=(e)=>{b.type=e.target.value;renderAll()};buttons[0].onclick=()=>{activeBidderId=b.id;renderAll()};buttons[1].onclick=()=>{activeBidderId=b.id;currentPrice=getNextPrice(currentPrice);closeSold();setPromptText(promptForBidderAction(b,currentPrice));renderAll()};buttons[2].onclick=()=>{activeBidderId=b.id;currentPrice=getPrevPrice(currentPrice);closeSold();setPromptText(promptForBidderAction(b,currentPrice));renderAll()};buttons[3].onclick=()=>{if(bidders.length<=1)return;bidders=bidders.filter(x=>x.id!==b.id);if(!bidders.find(x=>x.id===activeBidderId))activeBidderId=bidders[0].id;renderAll()};box.appendChild(wrap)})}
-function renderTop(){$("lotTitleTop").textContent=currentLot().title;$("startPriceInput").value=currentPrice;$("enBtn").classList.toggle("active",language==="EN");$("cnBtn").classList.toggle("active",language==="CN");$("cnyLadderBtn").classList.toggle("active",activeLadderKey==="CNY");$("hkdLadderBtn").classList.toggle("active",activeLadderKey==="HKD");$("toggleDescBtn").textContent=descVisible?"Hide text":"Show text";$("ladderNote").textContent=activeLadderKey==="HKD"?"HKD ladder active (Hong Kong sale ladder).":"CNY ladder active."}
+function renderTop(){$("lotTitleTop").textContent=currentLot().title;$("startPriceInput").value=currentPrice;$("enBtn").classList.toggle("active",language==="EN");$("cnBtn").classList.toggle("active",language==="CN");$("cnyLadderBtn").classList.toggle("active",activeLadderKey==="CNY");$("hkdLadderBtn").classList.toggle("active",activeLadderKey==="HKD");$("toggleDescBtn").textContent=descVisible?"Hide text":"Show text";$("togglePromptBtn").textContent=promptVisible?"Hide prompt":"Show prompt";$("ladderNote").textContent=activeLadderKey==="HKD"?"HKD ladder active (Hong Kong sale ladder).":"CNY ladder active."}
 function renderSoldLines(){const b=activeBidder();$("soldPriceLine").textContent=`${activeCurrencyCode()} ${formatPrice(soldPrice)}`;$("soldBidderLine").textContent=`${BIDDER_TYPE_META[b.type].label} bidder wins — ${b.name}`}
 function setActiveLadder(key){
   activeLadderKey=key;
@@ -536,33 +583,43 @@ function safePos(id,left,top,width,height){
 }
 function makeDraggable(id,handleId){
   const el=$(id), header=handleId?$(handleId):el.querySelector(".module-header");
-  let dragging=false,startX=0,startY=0,origX=0,origY=0;
-  header.addEventListener("mousedown",(e)=>{dragging=true;startX=e.clientX;startY=e.clientY;origX=el.offsetLeft;origY=el.offsetTop;document.body.style.userSelect="none";});
-  window.addEventListener("mousemove",(e)=>{
-    if(!dragging) return;
-    const pos=safePos(id,origX+(e.clientX-startX),origY+(e.clientY-startY),el.offsetWidth,el.offsetHeight);
-    el.style.left=pos.left+"px"; el.style.top=pos.top+"px";
+  let dragging=false,startX=0,startY=0,origX=0,origY=0,pointerId=null;
+  header.style.touchAction="none";
+  header.addEventListener("pointerdown",(e)=>{
+    if(e.button!==undefined&&e.button!==0)return;
+    dragging=true;pointerId=e.pointerId;startX=e.clientX;startY=e.clientY;origX=el.offsetLeft;origY=el.offsetTop;
+    document.body.style.userSelect="none";
+    try{header.setPointerCapture(pointerId)}catch(_){}
+    e.preventDefault();
   });
-  window.addEventListener("mouseup",()=>{if(dragging) saveLocal(); dragging=false; document.body.style.userSelect="";});
+  header.addEventListener("pointermove",(e)=>{
+    if(!dragging||e.pointerId!==pointerId)return;
+    const pos=safePos(id,origX+(e.clientX-startX),origY+(e.clientY-startY),el.offsetWidth,el.offsetHeight);
+    el.style.left=pos.left+"px";el.style.top=pos.top+"px";
+  });
+  const finish=(e)=>{
+    if(!dragging||e.pointerId!==pointerId)return;
+    dragging=false;pointerId=null;document.body.style.userSelect="";saveLocal();
+  };
+  header.addEventListener("pointerup",finish);
+  header.addEventListener("pointercancel",finish);
 }
 function watchResizeSave(id){
-  const el=$(id); let timer=null;
+  const el=$(id);let timer=null;
   const ro=new ResizeObserver(()=>{
     clearTimeout(timer);
     timer=setTimeout(()=>{
-      const width=snap(el.offsetWidth), height=snap(el.offsetHeight);
-      el.style.width=width+"px"; el.style.height=height+"px";
-      const pos=safePos(id,el.offsetLeft,el.offsetTop,width,height);
-      el.style.left=pos.left+"px"; el.style.top=pos.top+"px";
+      const pos=safePos(id,el.offsetLeft,el.offsetTop,el.offsetWidth,el.offsetHeight);
+      el.style.left=pos.left+"px";el.style.top=pos.top+"px";
       saveLocal();
-    },50);
+    },90);
   });
   ro.observe(el);
 }
 function resetLayout(){applyModuleLayout(DEFAULT_LAYOUT);saveLocal()}
 
 $("addLotBtn").onclick=()=>{const title=$("newLotTitle").value.trim()||`Lot ${Date.now()}`;lots.push({id:Date.now(),title,image:"",descriptionEN:"Enter English lot description here.",descriptionCN:"在此输入中文拍品说明。",startingPrice:100000,finalPrice:120000});currentLotIndex=lots.length-1;resetLot();renderAll()}
-$("deleteLotBtn").onclick=()=>{if(lots.length<=1)return;lots.splice(currentLotIndex,1);currentLotIndex=Math.max(0,Math.min(currentLotIndex-1,lots.length-1));resetLot();renderAll()}
+$("deleteLotBtn").onclick=()=>{if(lots.length<=1)return;if(!confirm("Delete this practice lot? This cannot be undone."))return;lots.splice(currentLotIndex,1);currentLotIndex=Math.max(0,Math.min(currentLotIndex-1,lots.length-1));resetLot();renderAll()}
 $("addBidderBtn").onclick=()=>{const name=$("newBidderName").value.trim()||"New Bidder";const type=$("newBidderType").value;const bidder={id:cryptoRandom(),name,type};bidders.push(bidder);activeBidderId=bidder.id;$("newBidderName").value="";renderAll()}
 
 $("enBtn").onclick=()=>{language="EN";renderAll()};$("cnBtn").onclick=()=>{language="CN";renderAll()};$("translateBtn").onclick=()=>{language=language==="EN"?"CN":"EN";renderAll()};$("cnyLadderBtn").onclick=()=>{setActiveLadder("CNY")};$("hkdLadderBtn").onclick=()=>{setActiveLadder("HKD")};$("togglePromptBtn").onclick=()=>{promptVisible=!promptVisible;renderPromptStrip();saveLocal()};$("toggleDescBtn").onclick=()=>{descVisible=!descVisible;renderAll()};$("quickToggleDesc").onclick=()=>{descVisible=!descVisible;renderAll()};$("quickSwitchLang").onclick=()=>{language=language==="EN"?"CN":"EN";renderAll()}
@@ -576,8 +633,23 @@ $("saveLotChanges").onclick=()=>{const lot=currentLot();lot.title=$("editTitle")
 $("energyRange").oninput=(e)=>{const v=Number(e.target.value);$("energyFill").style.width=v+"%";$("energyValue").textContent=`Energy: ${v} / 100`}
 document.querySelectorAll("[data-toggle]").forEach((btn)=>{btn.onclick=()=>{const target=document.getElementById(btn.dataset.toggle);target.classList.toggle("collapsed");btn.textContent=target.classList.contains("collapsed")?"Expand":"Collapse"}})
 
+$("raiseBtn").title="Raise bid (+)";
+$("lowerBtn").title="Lower bid (-)";
+$("gavelBtn").title="Hammer down (H)";
+$("togglePromptBtn").title="Show or hide the live prompt (P)";
+$("toggleDescBtn").title="Show or hide the lot copy (D)";
+document.addEventListener("keydown",(e)=>{
+  const tag=(document.activeElement&&document.activeElement.tagName)||"";
+  if(["INPUT","TEXTAREA","SELECT"].includes(tag)||e.ctrlKey||e.metaKey||e.altKey)return;
+  if(e.key==="+"){e.preventDefault();$("raiseBtn").click()}
+  else if(e.key==="-"){e.preventDefault();$("lowerBtn").click()}
+  else if(e.key.toLowerCase()==="h"){e.preventDefault();$("gavelBtn").click()}
+  else if(e.key.toLowerCase()==="p"){e.preventDefault();$("togglePromptBtn").click()}
+  else if(e.key.toLowerCase()==="d"){e.preventDefault();$("toggleDescBtn").click()}
+});
+
 loadLocal();
-applyModuleLayout(DEFAULT_LAYOUT);
+applyModuleLayout(savedModuleLayout||DEFAULT_LAYOUT);
 if(!currentPromptText){currentPromptText=promptForOpening();}
 makeDraggable("imageModule");
 makeDraggable("descModule");
@@ -585,37 +657,46 @@ makeDraggable("gavelModule");
 
 function makeCornerResizable(id){
   const el=$(id);
+  const minimums={
+    imageModule:{width:180,height:140},
+    descModule:{width:220,height:140},
+    gavelModule:{width:160,height:160},
+    priceModule:{width:420,height:150}
+  };
+  const min=minimums[id]||{width:160,height:120};
   el.querySelectorAll(".resize-handle").forEach((handle)=>{
-    let active=false,startX=0,startY=0,startRect=null,corner="";
-    handle.addEventListener("mousedown",(e)=>{
-      e.stopPropagation();
-      active=true; corner=handle.dataset.corner; startX=e.clientX; startY=e.clientY;
+    let active=false,startX=0,startY=0,startRect=null,corner="",pointerId=null;
+    handle.style.touchAction="none";
+    handle.addEventListener("pointerdown",(e)=>{
+      if(e.button!==undefined&&e.button!==0)return;
+      e.stopPropagation();e.preventDefault();
+      active=true;pointerId=e.pointerId;corner=handle.dataset.corner;startX=e.clientX;startY=e.clientY;
       startRect={left:el.offsetLeft,top:el.offsetTop,width:el.offsetWidth,height:el.offsetHeight};
       document.body.style.userSelect="none";
+      try{handle.setPointerCapture(pointerId)}catch(_){}
     });
-    window.addEventListener("mousemove",(e)=>{
-      if(!active) return;
-      let dx=e.clientX-startX, dy=e.clientY-startY;
-      let left=startRect.left, top=startRect.top, width=startRect.width, height=startRect.height;
-      if(corner.includes("e")) width = startRect.width + dx;
-      if(corner.includes("s")) height = startRect.height + dy;
-      if(corner.includes("w")) { width = startRect.width - dx; left = startRect.left + dx; }
-      if(corner.includes("n")) { height = startRect.height - dy; top = startRect.top + dy; }
-      width = Math.max(420, width);
-      height = Math.max(150, height);
-      const pov = $("pov");
-      left = Math.max(0, Math.min(left, pov.clientWidth - width - 10));
-      top = Math.max(20, Math.min(top, pov.clientHeight - height - 8));
-      el.style.width = width + "px";
-      el.style.height = height + "px";
-      el.style.left = left + "px";
-      el.style.top = top + "px";
+    handle.addEventListener("pointermove",(e)=>{
+      if(!active||e.pointerId!==pointerId)return;
+      const dx=e.clientX-startX,dy=e.clientY-startY;
+      let left=startRect.left,top=startRect.top,width=startRect.width,height=startRect.height;
+      if(corner.includes("e"))width=startRect.width+dx;
+      if(corner.includes("s"))height=startRect.height+dy;
+      if(corner.includes("w")){width=startRect.width-dx;left=startRect.left+dx}
+      if(corner.includes("n")){height=startRect.height-dy;top=startRect.top+dy}
+      width=Math.max(min.width,width);height=Math.max(min.height,height);
+      const pov=$("pov");
+      width=Math.min(width,Math.max(min.width,pov.clientWidth-10));
+      height=Math.min(height,Math.max(min.height,pov.clientHeight-28));
+      left=Math.max(0,Math.min(left,pov.clientWidth-width-10));
+      top=Math.max(20,Math.min(top,pov.clientHeight-height-8));
+      el.style.width=width+"px";el.style.height=height+"px";el.style.left=left+"px";el.style.top=top+"px";
     });
-    window.addEventListener("mouseup",()=>{
-      if(active) saveLocal();
-      active=false;
-      document.body.style.userSelect="";
-    });
+    const finish=(e)=>{
+      if(!active||e.pointerId!==pointerId)return;
+      active=false;pointerId=null;document.body.style.userSelect="";saveLocal();
+    };
+    handle.addEventListener("pointerup",finish);
+    handle.addEventListener("pointercancel",finish);
   });
 }
 
